@@ -72,7 +72,7 @@ class Test(Resource):
         # and access it like this : args.list. We can index by doing args.list[index]
 
         parser = reqparse.RequestParser()
-        parser.add_argument('input',type=string)
+        parser.add_argument('input')
         args = parser.parse_args()
         # print(request.form)
         # print(args.list[0], " ", args.list[1])
@@ -95,7 +95,7 @@ class Test(Resource):
         print(BeautifulSoup(r.data))
         # print(requests.get(
         #     'http://api.glassdoor.com/api/api.htm?t.p=233537&t.k=b3Bt5z7OKJs&userip=0.0.0.0&format=json&v=1&action=employers&jobTitle="Data Scientist"&q="IBM"').text)
-        z = {'output':{'stuff' : args.string}} # Formatting this is important. If you don't format it right,
+        z = {'output':{'stuff' : args.input}} # Formatting this is important. If you don't format it right,
         return z                                              # React won't get anything/ won't be able to index it.
 
 
