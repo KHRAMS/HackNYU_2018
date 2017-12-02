@@ -1,9 +1,7 @@
 # coding=utf-8
 import re
-import college_score as cs
-
-degreeRankings = {'bachelors':0,'masters':1 ,'phd':2,'doctorate':3}
-educationRankings = {'mit':cs.college_score("Massachusetts Institute of Technology"),'columbia':cs.college_score("Columbia University") ,'cit':cs.college_score("California Institute of Technology"),'california':cs.college_score("California State University--Fresno")}
+degreeRankings = {'bachelors':1,'masters':2 ,'phd':3,'doctorate':4}
+educationRankings = {'mit':4,'columbia':3,'cit':2,'california':1}
 companyRankings = {'accenture' : 3,'ibm' : 2, 'amazon' : 4}
 
 def regex_processing(str):
