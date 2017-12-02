@@ -12,46 +12,7 @@ import requests
 import urllib3
 from bs4 import BeautifulSoup
 
-#Processing, don't worry about this
-def readFiles(path):
-    for root, dirnames, filenames in os.walk(path):
-        for filename in filenames:
-            path = os.path.join(root, filename)
 
-            inBody = False
-            lines = []
-            f = io.open(path, 'r', encoding='latin1')
-            for line in f:
-                if inBody:
-                    lines.append(line)
-                elif line == '\n':
-                    inBody = True
-            f.close()
-            message = '\n'.join(lines)
-            yield path, message
-
-
-def dataFrameFromDirectory(path, classification):
-    rows = []
-    index = []
-    for filename, message in readFiles(path):
-        rows.append({'message': message, 'class': classification})
-        index.append(filename)
-
-    return DataFrame(rows, index=index)
-
-
-data = DataFrame({'message': [], 'class': []})
-
-data = data.append(dataFrameFromDirectory('/Users/KrishnanRam/Documents/Same1', '1'))
-data = data.append(dataFrameFromDirectory('/Users/KrishnanRam/Documents/Same2', '2'))
-
-vectorizer = CountVectorizer()
-counts = vectorizer.fit_transform(data['message'].values)
-
-classifier = MultinomialNB()
-targets = data['class'].values
-classifier.fit(counts, targets)
 
 #API stuff
 
