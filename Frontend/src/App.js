@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from "axios";
+import ReactDOM from 'react-dom';
 
 class App extends Component {
 
   post = (input) => {
     const test = axios.put("http://localhost:5000/test", {input: input}).then((response) =>
     {
-
-        alert(response.data['output']['input']);
+const data =response.data['output']['stuff'];
+    //    alert(response.data['output']['stuff']);
+const element = <h1> Hi {data}</h1>
+    ReactDOM.render(
+      element,
+      document.getElementById('root')
+    );
     }).catch(error => {
       alert(error);
     });
@@ -17,9 +23,11 @@ class App extends Component {
 
   save = () => {
     const input = document.getElementById("input").value;
-    document.write(input);
+    // document.write(input);
     this.post(input);
   }
+
+
 
   render() {
     return (
@@ -30,13 +38,13 @@ class App extends Component {
         </header>
         <label className ="InputTitle">Enter Resume: </label>
          <textarea  className = "input"id ="input" name="input" rows="10" cols="30">
-        </textarea> 
+        </textarea>
 
         {/*<input type="file" className = "input" id = "input" />*/}
         <br />
 
       <button className = "submit" type = "submit" onClick={this.save}> Submit </button>
-      </div>
+    </div>
     );
   }
 }
