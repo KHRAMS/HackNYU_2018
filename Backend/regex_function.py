@@ -12,6 +12,9 @@ def regex_processing(str):
 	print(degree[0])
 	college = re.findall(r'from ([\w\.-]+)', str)
 	print(college[0])
-	ctc = re.findall(r'currently have CTC of \$(\d{1,6})', str)
-	print(ctc[0])
+	ctc = re.findall(r'currently have CTC of  \$(\d{1,6})', str)
+	if ctc == []:
+		ctc = ctc = re.findall(r'currently have CTC of \$(\d{1,6})', str)
+	print(ctc)
+	return [name[0],experience[0],co[0],degree[0],college[0],ctc[0]]
 
