@@ -15,5 +15,4 @@ def regex_processing(str):
 	ctc = re.findall(r'currently have CTC of \$(\d{1,6})', str)
 	print(ctc[0])
 
-
-regex_processing("Hi My name is Sheldon Cooper and I have 11 years of experience working with Accenture, I have mathematics and statistics background. I have completed my doctorate from MIT University. I have experience with auto domain and currently have CTC of $170000.")
+#Pass in parameter when needed. Last line is for testing
