@@ -8,11 +8,13 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Hire'lytics</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <label>Enter Resume: </label>
+        <input type="text" name="Resume Input" placeholder="Resume Input" />
+      <br />
+
+      <button type = "submit" onClick=""> Submit </button>
       </div>
     );
   }
