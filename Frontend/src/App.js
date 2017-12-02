@@ -3,6 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+
+  save = () => {
+    const input = document.getElementById("input").value;
+    document.write(input);
+
+  }
+
   render() {
     return (
       <div className="App">
@@ -11,10 +18,11 @@ class App extends Component {
           <h1 className="App-title">Hire'lytics</h1>
         </header>
         <label>Enter Resume: </label>
-        <input type="text" name="Resume Input" placeholder="Resume Input" />
-      <br />
+        <textarea id ="input" name="input" rows="10" cols="30">
+        </textarea>
+        <br />
 
-      <button type = "submit" onClick=""> Submit </button>
+      <button type = "submit" onClick={this.save}> Submit </button>
       </div>
     );
   }
