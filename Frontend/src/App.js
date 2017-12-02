@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from "axios";
 
 class App extends Component {
+
+  post = (input) => {
+    const test = axios.put("http://localhost:5000/test", {input: input}).then((response) =>
+    {
+
+        alert(response.data['output']['input']);
+    }).catch(error => {
+      alert(error);
+    });
+    return test
+  };
 
   save = () => {
     const input = document.getElementById("input").value;
     document.write(input);
-
+    this.post(input);
   }
 
   render() {
