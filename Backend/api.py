@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask,request
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 import os
@@ -72,19 +72,14 @@ class Test(Resource):
         # and access it like this : args.list. We can index by doing args.list[index]
 
         parser = reqparse.RequestParser()
-        parser.add_argument('blah', action='append')
-        parser.add_argument('num',type=int)
+        parser.add_argument('input',type=string)
         args = parser.parse_args()
         # print(request.form)
         # print(args.list[0], " ", args.list[1])
         # notes[0] = args.list
         # print("Notes ")
-        examples = [args.blah[0], args.blah[1]]  # needs to be list formatted like so.
-        example_counts = vectorizer.transform(examples)
-        predictions = classifier.predict(example_counts)
 
-        y = predictions.tolist()
-        print(y)
+
         http = urllib3.PoolManager()
         # url = 'http://api.glassdoor.com/api/api.htm?t.p=233537&t.k=b3Bt5z7OKJs&userip=0.0.0.0&useragent=&format=json&v=1&action=employers&jobTitle="Data Scientist"&q="IBM"'
         #
@@ -100,7 +95,7 @@ class Test(Resource):
         print(BeautifulSoup(r.data))
         # print(requests.get(
         #     'http://api.glassdoor.com/api/api.htm?t.p=233537&t.k=b3Bt5z7OKJs&userip=0.0.0.0&format=json&v=1&action=employers&jobTitle="Data Scientist"&q="IBM"').text)
-        z = {'output':{'prediction' : y}} # Formatting this is important. If you don't format it right,
+        z = {'output':{'stuff' : args.string}} # Formatting this is important. If you don't format it right,
         return z                                              # React won't get anything/ won't be able to index it.
 
 
