@@ -33,9 +33,16 @@ X = train[features]
 clf = RandomForestClassifier(n_estimators=10)
 clf = clf.fit(X, y)
 #Testing. Should be within ~$3000 dollars of correct amount.
-print(clf.predict([train_x[41][:4]]))
-print(clf.predict([train_x[42][:4]]))
-print(clf.predict([train_x[43][:4]]))
+count = 0
+for i in range(45):
+    print(clf.predict([train_x[i][:4]])," ",(clf.predict([train_x[i][:4]])-train_x[i][4:])," ",i)
+    x = clf.predict([train_x[i][:4]])-train_x[i][4:]
+    if x[0] == 0:
+        count = count+1
+
+print(count)
+print(train_x[29])
+print(train_x[39])
 
 
 # degreeRankings = {'bachelors':1,'masters':2 ,'phd':3,'doctorate':4}

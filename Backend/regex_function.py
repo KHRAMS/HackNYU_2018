@@ -1,8 +1,8 @@
 # coding=utf-8
 import re
 degreeRankings = {'bachelors':1,'masters':2 ,'phd':3,'doctorate':4}
-educationRankings = {'mit':4,'columbia':3 ,'cit':2,'california':1}
-companyRankings = {'accenture' : 3,'ibm' : 2, 'amazon' : 3}
+educationRankings = {'mit':4,'columbia':3,'cit':2,'california':1}
+companyRankings = {'accenture' : 3,'ibm' : 2, 'amazon' : 4}
 
 def regex_processing(str):
     name = re.findall(r'name is (\w+\s+\w+)', str)  # Use Limit
