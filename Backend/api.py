@@ -83,13 +83,13 @@ class Test(Resource):
         # response = urllib2.urlopen(req)
         # # soup = BeautifulSoup(response)
         # hdr = {'User-Agent': 'Mozilla/5.0'}
-        data = rf.regex_processing_real(input)
+        data = rf.regex_processing_real(args.input)
         prediction = clf.predict([data])
 
 
         # print(requests.get(
         #     'http://api.glassdoor.com/api/api.htm?t.p=233537&t.k=b3Bt5z7OKJs&userip=0.0.0.0&format=json&v=1&action=employers&jobTitle="Data Scientist"&q="IBM"').text)
-        z = {'output': {'stuff': prediction[0]}}  # Formatting this is important. If you don't format it right,
+        z = {'output': {'stuff': str(prediction[0])}}  # Formatting this is important. If you don't format it right,
         return z  # React won't get anything/ won't be able to index it.
 
 
