@@ -1,9 +1,11 @@
 from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
+from pandas import DataFrame
 import os
 import io
 import numpy
+from sklearn.ensemble import RandomForestClassifier
 from pandas import DataFrame
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
@@ -21,6 +23,21 @@ for i in range(1, 46):
     #print(regex_processing(file.read()))
     train_x.append(rf.regex_processing(file.read()))
 print(train_x[44])
+train = DataFrame(train_x[:40],columns=['years_exp','company','degree','college','ctc'])
+print(train.head())
+features = list(train.columns[:4])
+print(features)
+y = train["ctc"]
+X = train[features]
+
+clf = RandomForestClassifier(n_estimators=10)
+clf = clf.fit(X, y)
+#Testing. Should be within ~$3000 dollars of correct amount.
+print(clf.predict([train_x[41][:4]]))
+print(clf.predict([train_x[42][:4]]))
+print(clf.predict([train_x[43][:4]]))
+
+
 # degreeRankings = {'bachelors':1,'masters':2 ,'phd':3,'doctorate':4}
 # educationRankings = {'mit':4,'columbia':3 ,'cit':2,'california':1}
 # companyRankings = {'accenture' : 3,'ibm' : 2, 'amazon' : 4}
@@ -66,11 +83,13 @@ class Test(Resource):
         # response = urllib2.urlopen(req)
         # # soup = BeautifulSoup(response)
         # hdr = {'User-Agent': 'Mozilla/5.0'}
+        data = rf.regex_processing_real(args.input)
+        prediction = clf.predict([data])
 
 
         # print(requests.get(
         #     'http://api.glassdoor.com/api/api.htm?t.p=233537&t.k=b3Bt5z7OKJs&userip=0.0.0.0&format=json&v=1&action=employers&jobTitle="Data Scientist"&q="IBM"').text)
-        z = {'output': {'stuff': args.input}}  # Formatting this is important. If you don't format it right,
+        z = {'output': {'stuff': str(prediction[0])}}  # Formatting this is important. If you don't format it right,
         return z  # React won't get anything/ won't be able to index it.
 
 
