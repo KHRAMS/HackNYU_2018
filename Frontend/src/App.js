@@ -29,8 +29,10 @@ class App extends Component {
           <h1 className="App-title">Hire'lytics</h1>
         </header>
         <label className ="InputTitle">Enter Resume: </label>
-        <textarea  className = "input"id ="input" name="input" rows="10" cols="30">
-        </textarea>
+         <textarea  className = "input"id ="input" name="input" rows="10" cols="30">
+        </textarea> 
+
+        {/*<input type="file" className = "input" id = "input" />*/}
         <br />
 
       <button className = "submit" type = "submit" onClick={this.save}> Submit </button>
