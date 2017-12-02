@@ -1,5 +1,9 @@
 # coding=utf-8
 import re
+degreeRankings = {'bachelors':1,'masters':2 ,'phd':3,'doctorate':4}
+educationRankings = {'mit':4,'columbia':3 ,'cit':2,'california':1}
+companyRankings = {'accenture' : 3,'ibm' : 2, 'amazon' : 4}
+
 def regex_processing(str):
     name = re.findall(r'name is (\w+\s+\w+)', str)  # Use Limit
     experience = re.findall(r'I have (\d{1,6})', str)
@@ -16,4 +20,4 @@ def regex_processing(str):
         ctc = re.findall(r'my CTC is \$(\d{1,6})', str)
     if re.search(r'my CTC is  \$(\d{1,6})', str):
         ctc = re.findall(r'my CTC is  \$(\d{1,6})', str)
-    return [experience[0], co[0], degree[0], college[0], ctc[0]]
+    return [int(experience[0]), companyRankings[co[0].lower()], degreeRankings[degree[0].lower()], educationRankings[college[0].lower()], int(ctc[0])]

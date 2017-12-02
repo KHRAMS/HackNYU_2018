@@ -16,11 +16,20 @@ import regex_function as rf
 
 train_x = []
 for i in range(1, 46):
-    file = open("/home/katchu11/Downloads/data/data/cover-letter/cover-letter%s.txt" % (i), "r")
+    file = open("/Users/KrishnanRam/Downloads/data/cover-letter/cover-letter%s.txt" % (i), "r")
     print(i)
     #print(regex_processing(file.read()))
     train_x.append(rf.regex_processing(file.read()))
 print(train_x[44])
+# degreeRankings = {'bachelors':1,'masters':2 ,'phd':3,'doctorate':4}
+# educationRankings = {'mit':4,'columbia':3 ,'cit':2,'california':1}
+# companyRankings = {'accenture' : 3,'ibm' : 2, 'amazon' : 4}
+# for i in range(45):
+#     train_x[i] = list(map(degreeRankings.get,train_x[i]))
+#     train_x[i] = list(map(educationRankings.get,train_x[i]))
+#     train_x[i] = list(map(companyRankings.get,train_x[i]))
+#
+# print(train_x[44])
 
 # API stuff
 
@@ -49,7 +58,7 @@ class Test(Resource):
         # print("Notes ")
 
 
-        http = urllib3.PoolManager()
+        #http = urllib3.PoolManager()
         # url = 'http://api.glassdoor.com/api/api.htm?t.p=233537&t.k=b3Bt5z7OKJs&userip=0.0.0.0&useragent=&format=json&v=1&action=employers&jobTitle="Data Scientist"&q="IBM"'
         #
         # hdr = {'User-Agent': 'Mozilla/5.0'}
