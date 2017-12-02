@@ -5,9 +5,20 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 180px;
   padding: 20px;
   color: white;
+}
+
+.photo {
+  height: 120px;
+  width: 170px;
+}
+
+.InputTitle {
+    position: fixed;
+    top: 230px;
+    left: 710px;
 }
 
 .App-title {
@@ -18,3 +29,14 @@
   font-size: large;
 }
 
+.input {
+  position: fixed;
+  left: 650px;
+  top: 260px;
+}
+
+.submit {
+  position: fixed;
+  left: 730px;
+  top: 430px;
+}
