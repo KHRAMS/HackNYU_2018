@@ -16,4 +16,4 @@ def regex_processing(str):
         ctc = re.findall(r'my CTC is \$(\d{1,6})', str)
     if re.search(r'my CTC is  \$(\d{1,6})', str):
         ctc = re.findall(r'my CTC is  \$(\d{1,6})', str)
-    return [name[0], experience[0], co[0], degree[0], college[0], ctc[0]]
+    return [experience[0], co[0], degree[0], college[0], ctc[0]]
