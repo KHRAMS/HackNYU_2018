@@ -18,6 +18,3 @@ def regex_processing(str):
 	print(ctc)
 	return [name[0],experience[0],co[0],degree[0],college[0],ctc[0]]
 
-# print(regex_processing("Hi My name is Sheldon Cooper and I have 11 years of experince working with Accenture,  I have mathematics and statistics background. I have completed my doctorate from MIT University .  I have experience with auto domain and currently have CTC of $170000."))
-
-# Pass in parameter when needed. Last line is for testing
