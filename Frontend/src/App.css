@@ -15,10 +15,27 @@
   width: 170px;
 }
 
+.graph {
+  position: relative;
+  align-items: center;
+  left: 550px;
+  top: 50px;
+}
+
+.OutputTitle {
+    position: relative;
+    top: 30px;
+    /*left: 800px;*/
+    align-items: center;
+}
+
 .InputTitle {
-    position: fixed;
-    top: 230px;
-    left: 710px;
+    position:relative;
+    top:-110px;
+    left: 130px;
+    /*left: 700px;*/
+    align-items: center;
+
 }
 
 .App-title {
@@ -30,13 +47,15 @@
 }
 
 .input {
-  position: fixed;
-  left: 680px;
-  top: 260px;
+  position: relative;
+  left: -30px;
+  top: 100px;
+  align-items: center;
 }
 
 .submit {
-  position: fixed;
-  left: 730px;
-  top: 300px;
+  position: relative;
+  align-items: center;
+  left: 20px;
+  top: 120px;
 }

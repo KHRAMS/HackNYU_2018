@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from "axios";
 import ReactDOM from 'react-dom';
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 
 class App extends Component {
 
@@ -10,7 +11,23 @@ class App extends Component {
     {
 const data =response.data['output']['stuff'];
     //    alert(response.data['output']['stuff']);
-const element = <h1> Hi {data}</h1>
+const element = <div className="App">
+  <header className="App-header">
+    <img className="photo" src="https://ak6.picdn.net/shutterstock/videos/25050416/thumb/1.jpg" />
+    <h1 className="App-title">Hirelytics</h1>
+  </header>
+  <h1 className="OutputTitle">Based on your resume you may earn ${data}</h1>
+  <BarChart className="graph" width={600} height={300} data={this.data}
+                          margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+                    <XAxis dataKey="name"/>
+                    <YAxis dataKey=""/>
+                    <CartesianGrid strokeDasharray="3 3"/>
+                    <Tooltip/>
+                    <Legend />
+                    <Bar dataKey="Your Data" fill="#8884d8"/>
+                    <Bar dataKey="Average" fill="#82ca9d"/>
+                </BarChart>
+</div> ;
     ReactDOM.render(
       element,
       document.getElementById('root')
@@ -34,7 +51,7 @@ const element = <h1> Hi {data}</h1>
       <div className="App">
         <header className="App-header">
           <img className="photo" src="https://ak6.picdn.net/shutterstock/videos/25050416/thumb/1.jpg" />
-          <h1 className="App-title">Hire'lytics</h1>
+          <h1 className="App-title">Hirelytics</h1>
         </header>
         <label className ="InputTitle">Enter Resume: </label>
          <textarea  className = "input"id ="input" name="input" rows="10" cols="30">
