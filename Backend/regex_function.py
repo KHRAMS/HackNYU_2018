@@ -15,4 +15,3 @@ def regex_processing(str):
 	ctc = re.findall(r'currently have CTC of \$(\d{1,6})', str)
 	print(ctc[0])
 
-#Pass in parameter when needed. Last line is for testing
