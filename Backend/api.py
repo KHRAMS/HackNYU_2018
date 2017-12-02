@@ -1,4 +1,4 @@
-from flask import Flask,request
+from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 import os
@@ -11,20 +11,46 @@ import json
 import requests
 import urllib3
 from bs4 import BeautifulSoup
+import re
 
 
+def regex_processing(str):
+    name = re.findall(r'name is (\w+\s+\w+)', str)  # Use Limit
+    experience = re.findall(r'I have (\d{1,6})', str)
+    co = re.findall(r'working with ([\w\.-]+)', str)
+    degree = re.findall(r'completed my ([\w\.-]+) from', str)
+    college = re.findall(r'from ([\w\.-]+)', str)
+    if re.search(r'currently have CTC of  \$(\d{1,6})', str):
+        ctc = re.findall(r'currently have CTC of  \$(\d{1,6})', str)
 
-#API stuff
+    if re.search(r'currently have CTC of \$(\d{1,6})', str):
+        ctc = re.findall(r'currently have CTC of \$(\d{1,6})', str)
+
+    if re.search(r'my CTC is \$(\d{1,6})', str):
+        ctc = re.findall(r'my CTC is \$(\d{1,6})', str)
+    if re.search(r'my CTC is  \$(\d{1,6})', str):
+        ctc = re.findall(r'my CTC is  \$(\d{1,6})', str)
+    return [name[0], experience[0], co[0], degree[0], college[0], ctc[0]]
+
+train_x = []
+for i in range(1, 46):
+    file = open("/Users/KrishnanRam/Downloads/data/cover-letter/cover-letter%s.txt" % (i), "r")
+    print(i)
+    #print(regex_processing(file.read()))
+    train_x.append(regex_processing(file.read()))
+print(train_x[44])
+
+# API stuff
 
 app = Flask(__name__)
-CORS(app) # <-- CORS is necessary for React.js's Axion to be able to use the methods in the api!
+CORS(app)  # <-- CORS is necessary for React.js's Axion to be able to use the methods in the api!
 api = Api(app)
 
 notes = {}
 
+
 class Test(Resource):
     def put(self):
-
         # Parsing. View docs(https://flask-restful.readthedocs.io/en/latest/) if this isn't what you need.
         # parser.add_argument('list', action='append') lets flask know that list an argument that can hold 2+ pieces of data in this data :
         # put('http://localhost:5000/', data={"list" : ["When was Barack Obama's birthday?", "What is 10 plus 5 equal to?"]}).json()
@@ -48,16 +74,13 @@ class Test(Resource):
         # req = urllib3.Request(url, headers=hdr)
         # response = urllib2.urlopen(req)
         # # soup = BeautifulSoup(response)
-       # hdr = {'User-Agent': 'Mozilla/5.0'}
+        # hdr = {'User-Agent': 'Mozilla/5.0'}
 
-        r = http.request('GET',
-                         'http://api.glassdoor.com/api/api.htm?t.p=233537&t.k=b3Bt5z7OKJs&format=json&v=1&action=employers')
-        print(r.status)
-        print(BeautifulSoup(r.data))
+
         # print(requests.get(
         #     'http://api.glassdoor.com/api/api.htm?t.p=233537&t.k=b3Bt5z7OKJs&userip=0.0.0.0&format=json&v=1&action=employers&jobTitle="Data Scientist"&q="IBM"').text)
-        z = {'output':{'stuff' : args.input}} # Formatting this is important. If you don't format it right,
-        return z                                              # React won't get anything/ won't be able to index it.
+        z = {'output': {'stuff': args.input}}  # Formatting this is important. If you don't format it right,
+        return z  # React won't get anything/ won't be able to index it.
 
 
 api.add_resource(Test, '/test')
