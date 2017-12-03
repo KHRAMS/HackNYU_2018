@@ -1,4 +1,4 @@
-# HackDayRutgers
+# Local Hack Day 2017 @ Rutgers University
 
 # Problem Statement
 People need to identify their skill gaps with the swiftly changing market, and as such, need to understand their current position in the market.
