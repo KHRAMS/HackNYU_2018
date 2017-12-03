@@ -106,7 +106,7 @@ class Test(Resource):
 
         # print(requests.get(
         #     'http://api.glassdoor.com/api/api.htm?t.p=233537&t.k=b3Bt5z7OKJs&userip=0.0.0.0&format=json&v=1&action=employers&jobTitle="Data Scientist"&q="IBM"').text)
-        z = {'output': {'ctc': str(prediction[0]),'yrs_exp':str(data[0])}}  # Formatting this is important. If you don't format it right,
+        z = {'output': {'ctc': str(prediction[0]),'yrs_exp':data[0]}}  # Formatting this is important. If you don't format it right,
         return z  # React won't get anything/ won't be able to index it.
 
 
