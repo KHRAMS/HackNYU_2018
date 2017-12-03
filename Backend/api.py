@@ -36,11 +36,14 @@ clf = clf.fit(X, y)
 count = 0
 error = []
 y = 0
+f = 0
 for i in range(45):
     # print(clf.predict([train_x[i][:4]])," ",(clf.predict([train_x[i][:4]])-train_x[i][4:])," ",i)
     print(train_x[i][0])
     x = clf.predict([train_x[i][:4]])-train_x[i][4:]
     y = y + train_x[i][0]
+    f = f + train_x[i][4]
+
     if x[0] == 0:
         count = count+1
     elif (i != 29):
@@ -49,6 +52,7 @@ average_error = sum(error)/len(error)
 print(average_error)
 average = y/45
 print(average)
+print(f/45)
 
 print("TEST",clf.predict([[100,4,4,4]]))
 # degreeRankings = {'bachelors':1,'masters':2 ,'phd':3,'doctorate':4}
@@ -102,7 +106,7 @@ class Test(Resource):
 
         # print(requests.get(
         #     'http://api.glassdoor.com/api/api.htm?t.p=233537&t.k=b3Bt5z7OKJs&userip=0.0.0.0&format=json&v=1&action=employers&jobTitle="Data Scientist"&q="IBM"').text)
-        z = {'output': {'stuff': str(prediction[0])}}  # Formatting this is important. If you don't format it right,
+        z = {'output': {'ctc': str(prediction[0]),'yrs_exp':data[0]}}  # Formatting this is important. If you don't format it right,
         return z  # React won't get anything/ won't be able to index it.
 
 
