@@ -18,7 +18,7 @@ import regex_function as rf
 
 train_x = []
 for i in range(1, 46):
-    file = open("/Users/KrishnanRam/Downloads/data/cover-letter/cover-letter%s.txt" % (i), "r")
+    file = open("C:/Users/AdityaDellPC/Downloads/hack_day_data/data/cover-letter/cover-letter%s.txt" % (i), "r")
     print(i)
     #print(regex_processing(file.read()))
     train_x.append(rf.regex_processing(file.read()))

@@ -20,11 +20,13 @@
   align-items: center;
   left: 550px;
   top: 50px;
+  margin-bottom: 100px;
 }
 
 .OutputTitle {
     position: relative;
     top: 30px;
+    margin-bottom: 50px;
     /*left: 800px;*/
     align-items: center;
 }
