@@ -9,15 +9,19 @@ class App extends Component {
   post = (input) => {
     const test = axios.put("http://localhost:5000/test", {input: input}).then((response) =>
     {
-const data =response.data['output']['stuff'];
+const data =response.data['output']['ctc'];
     //    alert(response.data['output']['stuff']);
+const data1 = [
+       {name: 'salary', YourData: data, Average: 161955.17}
+   ];
+
 const element = <div className="App">
   <header className="App-header">
     <img className="photo" src="https://ak6.picdn.net/shutterstock/videos/25050416/thumb/1.jpg" />
     <h1 className="App-title">Hirelytics</h1>
   </header>
   <h1 className="OutputTitle">Based on your resume you may earn ${data}</h1>
-  <BarChart className="graph" width={600} height={300} data={this.data}
+  <BarChart className="graph" width={600} height={300} data={this.data1}
                           margin={{top: 5, right: 30, left: 20, bottom: 5}}>
                     <XAxis dataKey="name"/>
                     <YAxis dataKey=""/>
