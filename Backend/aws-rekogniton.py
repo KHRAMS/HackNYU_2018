@@ -1,5 +1,5 @@
 import boto3
-
+#prototype
 BUCKET = "amazon-rekognition"
 KEY = "test.jpg"
 FEATURES_BLACKLIST = ("Landmarks", "Emotions", "Pose", "Quality", "BoundingBox", "Confidence")
