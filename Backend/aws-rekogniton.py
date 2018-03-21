@@ -35,7 +35,7 @@ import cv2
 import boto3
 import json
 if __name__ == "__main__":
-	imageFile='/home/katchu11/MyPrograms/face.jpg'
+	imageFile='/home/katchu11/HackNYU_2018/Backend/detected_face.png'
 	client=boto3.client('rekognition','us-east-1')
 	with open(imageFile, 'rb') as image:
 		response = client.detect_faces(Image={'Bytes': image.read()},Attributes=["ALL"])

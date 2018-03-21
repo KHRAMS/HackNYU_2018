@@ -3,6 +3,7 @@ import dlib
 from PIL import Image
 from skimage import io
 import matplotlib.pyplot as plt
+import matplotlib.ticker as locator
 
 def detect_faces(image):
 
@@ -17,7 +18,7 @@ def detect_faces(image):
     return face_frames
 
 # Load image
-img_path = '/home/katchu11/Pictures/kashyap.jpg'
+img_path = '/home/katchu11/Pictures/murali.jpg'
 image = io.imread(img_path)
 
 # Detect faces
@@ -28,14 +29,17 @@ for n, face_rect in enumerate(detected_faces):
     face = Image.fromarray(image).crop(face_rect)
     plt.subplot(1, len(detected_faces), n+1)
     plt.axis('off')
+    ax=plt.gca()
+    ax.xaxis.set_major_locator(locator.NullLocator())
+    ax.yaxis.set_major_locator(locator.NullLocator())
     plt.imshow(face)
-    plt.savefig("detected_face.png",bbox_inches='tight')
+    plt.savefig("detected_face.png",bbox_inches='tight',pad_inches=-0.025)
 
 
 # In[20]:
 
 
-img = Image.open("final_user.png")
+img = Image.open("detected_face.png")
 basewidth = 48
 wpercent = (basewidth/float(img.size[0]))
 hsize = int((float(img.size[1])*float(wpercent)))
