@@ -94,21 +94,24 @@ def return_weather_analysis(destination_address, origin_address):
     destination_response = urllib.request.urlopen(destination_request).read()
     destination_data = json.loads(destination_response.decode('utf-8'))
     destination_weather = (destination_data["weather"][0]["id"])
-
-    if 200 <= origin_weather <= 531 or 200 <= destination_weather <= 531:
-        return "Be carefull of the rain and thunder, make sure you are not speeding"
-    elif 600 <= origin_weather <= 601 or 600 <= destination_weather <= 601 or 611 <= origin_weather <= 620 or 611 <= destination_weather <= 620:
-        return "Be carefull of the sleet and light snow, make sure you are not speeding"
+    # print(origin_data)
+    # print(destination_data)
+    if 781 == origin_weather or 781 == destination_weather or 900 <= origin_weather <= 902 or 900 <= destination_weather <= 902 or 905 <= origin_weather <= 906 or 905 <= destination_weather <= 906 or 957 <= origin_weather <= 962 or 957 <= destination_weather <= 962:
+        return "Be carefull of this extreme weather, I advise to definetally not drive outside."
     elif 602 == origin_weather or 602 == destination_weather or 621 <= origin_weather <= 622 or 621 <= destination_weather <= 622:
         return "Be carefull of the heavy snow, I recomend not driving outside currently"
-    elif 781 == origin_weather or 781 == destination_weather or 900 <= origin_weather <= 902 or 900 <= destination_weather <= 902 or 905 <= origin_weather <= 906 or 905 <= destination_weather <= 906 or 957 <= origin_weather <= 962 or 957 <= destination_weather <= 962:
-        return "Be carefull of this extreme weather, I advise to definetally not drive outside."
+    elif 600 <= origin_weather <= 601 or 600 <= destination_weather <= 601 or 611 <= origin_weather <= 620 or 611 <= destination_weather <= 620:
+        return "Be carefull of the sleet and light snow, make sure you are not speeding"
+    elif 200 <= origin_weather <= 531 or 200 <= destination_weather <= 531:
+        return "Be carefull of the rain and thunder, make sure you are not speeding"
     else:
-        return "The weather outside is safe and great to drive. Remember to buckle up and maintain control"
-print(return_traffic_analysis(origin, destination, departure, arrival))
+        return "The weather outside is safe and great to drive. Remember to buckle up and maintain control of the car"
+
+
+#print(return_traffic_analysis(origin, destination, departure, arrival))
 #print(destination_address)
 #print(origin_address)
-#print(return_weather_analysis(destination_address, origin_address))
+print(return_weather_analysis(destination_address, origin_address))
 
 
 
