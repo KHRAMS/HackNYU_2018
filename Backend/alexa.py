@@ -13,7 +13,7 @@ import sys
 import os
 from constants import *
 import time
-
+import requests
 def facechop(image):
     facedata = "/Users/KrishnanRam/Downloads/opencv/data/haarcascades/haarcascade_frontalface_default.xml"
     cascade = cv2.CascadeClassifier(facedata)
@@ -50,24 +50,34 @@ def new_game():
 
     welcome_msg = render_template('welcome')
 
-    return question(welcome_msg)
+    return question(welcome_msg).reprompt(welcome_msg)
+
+
+# @ask.intent("YesIntent")
+#
+# def last_round():
+#     return statement("Hi.")
 
 
 @ask.intent("YesIntent")
 
 def next_round():
     start = time.time()
-    cap = cv2.VideoCapture(0)  # video capture source camera (Here webcam of laptop)
-    ret, frame = cap.read()  # return a single frame in variable `frame`
+    # cap = cv2.VideoCapture(0)  # video capture source camera (Here webcam of laptop)
+    # ret, frame = cap.read()  # return a single frame in variable `frame`
+    #
+    # cv2.imwrite('c1.jpg', frame)  # display the captured image
+    #
+    # cap.release()
+    r = requests.put('https://ab9a775c.ngrok.io/', data={'input': 'data'})
+    with open("sample.jpg", 'wb') as f:
+        f.write(r.content)
 
-    cv2.imwrite('c1.jpg', frame)  # display the captured image
-
-    cap.release()
 
     facedata = "/Users/KrishnanRam/Downloads/opencv/data/haarcascades/haarcascade_frontalface_default.xml"
     cascade = cv2.CascadeClassifier(facedata)
 
-    img = cv2.imread('c1.jpg')
+    img = cv2.imread('sample.jpg')
 
     minisize = (img.shape[1], img.shape[0])
     miniframe = cv2.resize(img, minisize)
@@ -103,7 +113,7 @@ def next_round():
     end = time.time()
     print(end-start)
 
-    if classes[0] == 0:
+    if (classes[0] == 0) or (classes[0] == 2):
         win = render_template('win')
         return question(win)
     else:
