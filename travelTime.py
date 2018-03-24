@@ -6,17 +6,17 @@ origin = input("Where are you?:").replace(" ", "+")
 destination = input("Where do you want to go?:").replace(" ", "+")
 departure = input("What time are you starting?:")
 arrival = input("What time do you want to be there by?:")
-#
-# endpoint = "https://maps.googleapis.com/maps/api/distancematrix/json?"
-# api_key = "AIzaSyBTr-wJwTkr6VUt3xboaCyZBtQk_ST_GHY"
-#
-# nreq = 'origins={}&destinations={}&key={}'.format(origin,destination,api_key)
-# req = endpoint + nreq
-# resp = urllib.request.urlopen(req).read()
-# dta = json.loads(resp)
-#
-# destination_address = (dta["destination_addresses"])
-# origin_address = (dta["origin_addresses"])
+
+endpoint = "https://maps.googleapis.com/maps/api/distancematrix/json?"
+api_key = "AIzaSyBTr-wJwTkr6VUt3xboaCyZBtQk_ST_GHY"
+
+nreq = 'origins={}&destinations={}&key={}'.format(origin,destination,api_key)
+req = endpoint + nreq
+resp = urllib.request.urlopen(req).read()
+dta = json.loads(resp.decode())
+
+destination_address = (dta["destination_addresses"][0])
+origin_address = (dta["origin_addresses"][0])
 
 def return_traffic_analysis(origin,destination,departure,arrival):
     import urllib.request, json, time
@@ -65,21 +65,22 @@ def return_traffic_analysis(origin,destination,departure,arrival):
     except:
         return "Please input current or future times."
 
-# def return_weather_analysis():
-#     import urllib.request, json, time
-#
-#     endpoint = "http://api.openweathermap.org/data/2.5/weather?id=524901&APPID={APIKEY}"
-#     api_key = "2fe8527826c3ba5ef45eee23d075f47b"
-#     nav_request = 'q={}&APPID={}'.format(origin,destination,int(time.mktime(time.strptime('2018-03-23 ' + departure + ":00",'%Y-%m-%d %H:%M:%S'))), "driving","best_guess", api_key)
-#     request = endpoint + nav_request
-#     response = urllib.request.urlopen(request).read()
-#     data = json.loads(response)
+def return_weather_analysis(destination_address, origin_address):
+    import urllib.request, json, time
+
+    endpoint = "http://api.openweathermap.org/data/2.5/weather?id=524901&APPID={APIKEY}"
+    api_key = "2fe8527826c3ba5ef45eee23d075f47b"
+    nav_request = 'q={}&APPID={}'.format(origin,destination,int(time.mktime(time.strptime('2018-03-23 ' + departure + ":00",'%Y-%m-%d %H:%M:%S'))), "driving","best_guess", api_key)
+    request = endpoint + nav_request
+    response = urllib.request.urlopen(request).read()
+    data = json.loads(response)
 
 
 
 
-print(return_traffic_analysis(origin, destination, departure, arrival))
-
+#print(return_traffic_analysis(origin, destination, departure, arrival))
+print(destination_address)
+print(origin_address)
 #return_weather_analysis()
 
 
