@@ -14,6 +14,9 @@ import os
 from constants import *
 import time
 import requests
+import _thread as thread
+# import datetime
+
 def facechop(image):
     facedata = "/Users/KrishnanRam/Downloads/opencv/data/haarcascades/haarcascade_frontalface_default.xml"
     cascade = cv2.CascadeClassifier(facedata)
@@ -25,7 +28,7 @@ def facechop(image):
 
     faces = cascade.detectMultiScale(miniframe)
 
-    for f in faces:
+    with faces[0] as f:
         x, y, w, h = [ v for v in f ]
         cv2.rectangle(img, (x,y), (x+w,y+h), (255,255,255))
 
@@ -60,24 +63,27 @@ def new_game():
 
 
 @ask.intent("YesIntent")
-
 def next_round():
     start = time.time()
-    # cap = cv2.VideoCapture(0)  # video capture source camera (Here webcam of laptop)
-    # ret, frame = cap.read()  # return a single frame in variable `frame`
-    #
-    # cv2.imwrite('c1.jpg', frame)  # display the captured image
-    #
-    # cap.release()
-    r = requests.put('https://ab9a775c.ngrok.io/', data={'input': 'data'})
-    with open("sample.jpg", 'wb') as f:
-        f.write(r.content)
+    emotion='angry'
+    cap = cv2.VideoCapture(0)  # video capture source camera (Here webcam of laptop)
+    ret, frame = cap.read()  # return a single frame in variable `frame`
+
+    cv2.imwrite('c1.jpg', frame)  # display the captured image
+
+    cap.release()
+
+    #RASPBERRY PI 3 STUFF HERE!!!!
+
+    # r = requests.put('https://fb81eb17.ngrok.io', data={'input': 'data'})
+    # with open("c1.jpg", 'wb') as f:
+    #     f.write(r.content)
 
 
     facedata = "/Users/KrishnanRam/Downloads/opencv/data/haarcascades/haarcascade_frontalface_default.xml"
     cascade = cv2.CascadeClassifier(facedata)
 
-    img = cv2.imread('sample.jpg')
+    img = cv2.imread('c1.jpg')
 
     minisize = (img.shape[1], img.shape[0])
     miniframe = cv2.resize(img, minisize)
@@ -108,8 +114,12 @@ def next_round():
 
 
     EMOTIONS = ['angry', 'disgusted', 'fearful', 'happy', 'neutral','sad', 'surprised']
-    emotion = EMOTIONS[classes[0]]
-    print(emotion)
+
+    if (EMOTIONS[classes[0]] == 'fearful'):
+        print(emotion)
+    else:
+        emotion = EMOTIONS[classes[0]]
+        print(emotion)
     end = time.time()
     print(end-start)
 
@@ -120,6 +130,54 @@ def next_round():
         lose = render_template('lose')
         return question(lose)
 
+@ask.intent("AnswerIntent")
+def drowsy_round():
+
+
+    face_cascade = cv2.CascadeClassifier(
+        '/Users/KrishnanRam/Downloads/opencv/data/haarcascades/haarcascade_frontalface_default.xml')
+    eye_cascade = cv2.CascadeClassifier('/Users/KrishnanRam/Downloads/opencv/data/haarcascades/haarcascade_eye.xml')
+    cam = cv2.VideoCapture(0)
+    count = 0
+    iters = 0
+    temp = 0
+    count_1 = 0
+    start = time.time()
+    while (time.time() - start < 7.0):
+        ret, cur = cam.read()
+        gray = cv2.cvtColor(cur, cv2.COLOR_BGR2GRAY)
+        faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=1, minSize=(10, 10))
+        for (x, y, w, h) in faces:
+            # cv2.rectangle(cur,(x,y),(x+w,y+h),(255,0,0),2)
+            roi_gray = gray[y:y + h, x:x + w]
+            roi_color = cur[y:y + h, x:x + w]
+            eyes = eye_cascade.detectMultiScale(roi_gray)
+            if len(eyes) == 0:
+                print("Eyes closed")
+                temp = 0
+            else:
+                print("Eyes open")
+                temp = 1
+            count += temp
+
+            iters += 1
+            if iters == 3:
+                print("Hello World")
+                iters = 0
+                if count == 0:
+                    print ("Drowsiness Detected!!!")
+                    count = 0
+                    temp = 0
+                    count_1 +=1
+
+            for (ex, ey, ew, eh) in eyes:
+                cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
+
+    if count_1 >= 2:
+        drowsy = render_template('drowsy')
+        return statement(drowsy)
+    else:
+        return statement(render_template('drowsy_not'))
 
 
 
