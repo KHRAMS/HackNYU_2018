@@ -1,0 +1,7 @@
+welcome: Welcome to computer vision test. Ready?
+
+round: Can you repeat the numbers {{ numbers|join(", ") }} backwards?
+
+win: You seem upset. Would you like me to play some music?
+
+lose: You have passed emotion test. Can we move on to the drowsiness test?

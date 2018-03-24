@@ -9,7 +9,6 @@ auth_token = "3a9afd3d87f73426240b38fcc6b7a4c7"
 client = Client(account_sid, auth_token)
 
 client.api.account.messages.create(
-    to="+18482136570",
+    to="+16099554715",
     from_="+12678438073",
-    body="Get on Rules!!!!")
- 
+    body="Test")
