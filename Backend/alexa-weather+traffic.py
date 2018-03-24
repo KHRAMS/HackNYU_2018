@@ -35,6 +35,7 @@ def return_traffic_analysis(origin,destination,departure,arrival):
     endpoint = "https://maps.googleapis.com/maps/api/distancematrix/json?"
     api_key = "AIzaSyBTr-wJwTkr6VUt3xboaCyZBtQk_ST_GHY"
     origin = origin.replace(" ",",")
+    print(origin,destination,departure,arrival)
     destination = destination.replace(" ",",")
     departure_hour = departure.split(":")[0]
     departure_minute = departure.split(":")[1]
@@ -51,7 +52,7 @@ def return_traffic_analysis(origin,destination,departure,arrival):
                                                                                                             int(
                                                                                                                 time.mktime(
                                                                                                                     time.strptime(
-                                                                                                                        '2018-03-24 ' + departure + ":00",
+                                                                                                                        '2018-03-25 ' + departure + ":00",
                                                                                                                         '%Y-%m-%d %H:%M:%S'))),
                                                                                                             "driving",
                                                                                                             "best_guess",
@@ -84,8 +85,37 @@ def return_traffic_analysis(origin,destination,departure,arrival):
         return statement("Within the paremeters you inputted you will not reach your destination on time.")
     else:
         return statement("The best time to leave is: " + (str(best_time).replace(".", ":")))
+@ask.intent("WeatherSafetyIntent",convert={'destination_address':str, 'origin_address':str})
 
+def return_weather_analysis(destination_address, origin_address):
+    import urllib.request, json, time
+    print(destination_address,origin_address)
+    origin_endpoint = "https://api.openweathermap.org/data/2.5/weather?"
+    origin_key = "7487c4fa1078b870d628607a3e4e8ccb"
+    origin_nav_request = 'zip={}&APPID={}'.format(origin_address,origin_key)
+    origin_request = origin_endpoint + origin_nav_request
+    origin_response = urllib.request.urlopen(origin_request).read()
+    origin_data = json.loads(origin_response.decode('utf-8'))
+    origin_weather = (origin_data["weather"][0]["id"])
 
+    destination_endpoint = "https://api.openweathermap.org/data/2.5/weather?"
+    destination_key = "7487c4fa1078b870d628607a3e4e8ccb"
+    destination_nav_request = 'zip={}&APPID={}'.format(destination_address, destination_key)
+    destination_request = destination_endpoint + destination_nav_request
+    destination_response = urllib.request.urlopen(destination_request).read()
+    destination_data = json.loads(destination_response.decode('utf-8'))
+    destination_weather = (destination_data["weather"][0]["id"])
+
+    if 200 <= origin_weather <= 531 or 200 <= destination_weather <= 531:
+        return "Be careful of the rain and thunder, make sure you are not speeding"
+    elif 600 <= origin_weather <= 601 or 600 <= destination_weather <= 601 or 611 <= origin_weather <= 620 or 611 <= destination_weather <= 620:
+        return "Be careful of the sleet and light snow, make sure you are not speeding"
+    elif 602 == origin_weather or 602 == destination_weather or 621 <= origin_weather <= 622 or 621 <= destination_weather <= 622:
+        return "Be careful of the heavy snow, I recomend not driving outside currently"
+    elif 781 == origin_weather or 781 == destination_weather or 900 <= origin_weather <= 902 or 900 <= destination_weather <= 902 or 905 <= origin_weather <= 906 or 905 <= destination_weather <= 906 or 957 <= origin_weather <= 962 or 957 <= destination_weather <= 962:
+        return "Be careful of this extreme weather, I advise to definitely not drive outside."
+    else:
+        return "The weather outside is safe and great to drive. Remember to buckle up and maintain control"
 @ask.intent("NoIntent")
 def no_intent():
     return statement("Bye")
