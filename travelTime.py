@@ -89,6 +89,7 @@ def return_weather_analysis(destination_address, origin_address):
     destination_key = "7487c4fa1078b870d628607a3e4e8ccb"
     destination_nav_request = 'zip={}&APPID={}'.format(destination_address, destination_key)
     destination_request = destination_endpoint + destination_nav_request
+    print("URL----->",destination_request)
     destination_response = urllib.request.urlopen(destination_request).read()
     destination_data = json.loads(destination_response.decode('utf-8'))
     destination_weather = (destination_data["weather"][0]["id"])
@@ -108,7 +109,7 @@ def return_weather_analysis(destination_address, origin_address):
 
 #print(return_traffic_analysis(origin, destination, departure, arrival))
 
-#print(return_weather_analysis(destination_address, origin_address))
+print(return_weather_analysis(destination_address, origin_address))
 
 
 
@@ -117,3 +118,4 @@ def return_weather_analysis(destination_address, origin_address):
 #0318
 
 
+#Is it safe to go from 18205 Warbler Way, West Windsor, NJ 08550 to NYU Tandon
