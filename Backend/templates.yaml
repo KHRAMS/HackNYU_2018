@@ -1,4 +1,4 @@
-welcome: Welcome to computer vision test. Ready?
+welcome: What would you like to do?
 
 round: Can you repeat the numbers {{ numbers|join(", ") }} backwards?
 

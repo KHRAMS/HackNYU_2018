@@ -1,7 +1,7 @@
 import logging
 from random import randint
 from flask import Flask, render_template
-from flask_ask import Ask, statement, question, session
+from flask_ask import Ask, statement, question, session, audio
 # from keras.models import load_model
 from keras.models import model_from_json
 import json
@@ -62,7 +62,7 @@ def new_game():
 #     return statement("Hi.")
 
 
-@ask.intent("YesIntent")
+@ask.intent("EmotionIntent")
 def next_round():
     start = time.time()
     emotion='angry'
@@ -115,22 +115,20 @@ def next_round():
 
     EMOTIONS = ['angry', 'disgusted', 'fearful', 'happy', 'neutral','sad', 'surprised']
 
-    if (EMOTIONS[classes[0]] == 'fearful'):
-        print(emotion)
-    else:
-        emotion = EMOTIONS[classes[0]]
-        print(emotion)
+
+    emotion = EMOTIONS[classes[0]]
+    print(emotion)
     end = time.time()
     print(end-start)
 
-    if (classes[0] == 0) or (classes[0] == 2):
+    if classes[0] == 0:
         win = render_template('win')
         return question(win)
     else:
         lose = render_template('lose')
         return question(lose)
 
-@ask.intent("AnswerIntent")
+@ask.intent("DrowsyIntent")
 def drowsy_round():
 
 
@@ -154,28 +152,26 @@ def drowsy_round():
             eyes = eye_cascade.detectMultiScale(roi_gray)
             if len(eyes) == 0:
                 print("Eyes closed")
-                temp = 0
+                temp += 0
             else:
                 print("Eyes open")
-                temp = 1
-            count += temp
-
+                temp += 1
+            print(iters)
             iters += 1
             if iters == 3:
                 print("Hello World")
                 iters = 0
-                if count == 0:
+                if temp == 0:
                     print ("Drowsiness Detected!!!")
-                    count = 0
                     temp = 0
                     count_1 +=1
 
             for (ex, ey, ew, eh) in eyes:
                 cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
 
-    if count_1 >= 2:
+    if count_1 >=  2:
         drowsy = render_template('drowsy')
-        return statement(drowsy)
+        return audio('playing song').play('https://www.youtube.com/watch?time_continue=1&v=dQw4w9WgXcQ')
     else:
         return statement(render_template('drowsy_not'))
 
