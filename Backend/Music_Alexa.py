@@ -72,7 +72,7 @@ class QueueManager(object):
         self._save_to_history() 
         self._current = url 
       
-       @property 
+    @property 
     def history(self): 
         return self._history 
  
