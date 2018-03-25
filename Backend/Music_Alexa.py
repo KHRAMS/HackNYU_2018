@@ -71,3 +71,186 @@ class QueueManager(object):
     def current(self, url): 
         self._save_to_history() 
         self._current = url 
+      
+       @property 
+    def history(self): 
+        return self._history 
+ 
+    @property 
+    def previous(self): 
+        history = copy(self.history) 
+        try: 
+            return history.pop() 
+        except IndexError: 
+            return None 
+ 
+    def add(self, url): 
+        self._urls.append(url) 
+        self._queued.append(url) 
+ 
+    def extend(self, urls): 
+        self._urls.extend(urls) 
+        self._queued.extend(urls) 
+ 
+    def _save_to_history(self): 
+        if self._current: 
+            self._history.append(self._current) 
+ 
+    def end_current(self): 
+        self._save_to_history() 
+        self._current = None 
+ 
+    def step(self): 
+        self.end_current() 
+        self._current = self._queued.popleft() 
+        return self._current 
+ 
+    def step_back(self): 
+        self._queued.appendleft(self._current) 
+        self._current = self._history.pop() 
+        return self._current 
+ 
+    def reset(self): 
+        self._queued = collections.deque(self._urls) 
+        self._history = [] 
+ 
+    def start(self): 
+        self.__init__(self._urls) 
+        return self.step() 
+ 
+    @property 
+    def current_position(self): 
+        return len(self._history) + 1 
+ 
+ 
+queue = QueueManager(calmdownplaylist) 
+ 
+ 
+@ask.launch 
+def launch(): 
+    card_title = 'Playlist Example' 
+    text = 'Welcome to an example for playing a playlist. You can ask me to start the playlist.' 
+    prompt = 'You can ask start playlist.' 
+    return question(text).reprompt(prompt).simple_card(card_title, text) 
+ 
+ 
+@ask.intent('PlaylistDemoIntent') 
+def start_playlist(): 
+    speech = 'Heres a playlist of some sounds. You can ask me Next, Previous, or Start Over' 
+    stream_url = queue.start() 
+    return audio(speech).play(stream_url) 
+ 
+ 
+# QueueManager object is not stepped forward here. 
+# This allows for Next Intents and on_playback_finished requests to trigger the step 
+@ask.on_playback_nearly_finished() 
+def nearly_finished(): 
+    if queue.up_next: 
+        _infodump('Alexa is now ready for a Next or Previous Intent') 
+        # dump_stream_info() 
+        next_stream = queue.up_next 
+        _infodump('Enqueueing {}'.format(next_stream)) 
+        return audio().enqueue(next_stream) 
+    else: 
+        _infodump('Nearly finished with last song in playlist') 
+ 
+ 
+@ask.on_playback_finished() 
+def play_back_finished(): 
+    _infodump('Finished Audio stream for track {}'.format(queue.current_position)) 
+    if queue.up_next: 
+        queue.step() 
+        _infodump('stepped queue forward') 
+        dump_stream_info() 
+    else: 
+        return statement('You have reached the end of the playlist!') 
+ 
+ 
+# NextIntent steps queue forward and clears enqueued streams that were already sent to Alexa 
+# next_stream will match queue.up_next and enqueue Alexa with the correct subsequent stream. 
+@ask.intent('AMAZON.NextIntent') 
+def next_song(): 
+    if queue.up_next: 
+        speech = 'playing next queued song' 
+        next_stream = queue.step() 
+        _infodump('Stepped queue forward to {}'.format(next_stream)) 
+        dump_stream_info() 
+        return audio(speech).play(next_stream) 
+    else: 
+        return audio('There are no more songs in the queue') 
+ 
+ 
+@ask.intent('AMAZON.PreviousIntent') 
+def previous_song(): 
+    if queue.previous: 
+        speech = 'playing previously played song' 
+        prev_stream = queue.step_back() 
+        dump_stream_info() 
+        return audio(speech).play(prev_stream) 
+ 
+    else: 
+        return audio('There are no songs in your playlist history.') 
+ 
+ 
+@ask.intent('AMAZON.StartOverIntent') 
+def restart_track(): 
+    if queue.current: 
+        speech = 'Restarting current track' 
+        dump_stream_info() 
+        return audio(speech).play(queue.current, offset=0) 
+    else: 
+        return statement('There is no current song') 
+ 
+ 
+@ask.on_playback_started() 
+def started(offset, token, url): 
+    _infodump('Started audio stream for track {}'.format(queue.current_position)) 
+    dump_stream_info() 
+ 
+ 
+@ask.on_playback_stopped() 
+def stopped(offset, token): 
+    _infodump('Stopped audio stream for track {}'.format(queue.current_position)) 
+ 
+@ask.intent('AMAZON.PauseIntent') 
+def pause(): 
+    seconds = current_stream.offsetInMilliseconds / 1000 
+    msg = 'Paused the Playlist on track {}, offset at {} seconds'.format( 
+        queue.current_position, seconds) 
+    _infodump(msg) 
+    dump_stream_info() 
+    return audio(msg).stop().simple_card(msg) 
+ 
+ 
+@ask.intent('AMAZON.ResumeIntent') 
+def resume(): 
+    seconds = current_stream.offsetInMilliseconds / 1000 
+    msg = 'Resuming the Playlist on track {}, offset at {} seconds'.format(queue.current_position, seconds) 
+    _infodump(msg) 
+    dump_stream_info() 
+    return audio(msg).resume().simple_card(msg) 
+ 
+ 
+@ask.session_ended 
+def session_ended(): 
+    return "{}", 200 
+ 
+def dump_stream_info(): 
+    status = { 
+        'Current Stream Status': current_stream.__dict__, 
+        'Queue status': queue.status 
+    } 
+    _infodump(status) 
+ 
+ 
+def _infodump(obj, indent=2): 
+    msg = json.dumps(obj, indent=indent) 
+    logger.info(msg) 
+ 
+ 
+if __name__ == '__main__': 
+    if 'ASK_VERIFY_REQUESTS' in os.environ: 
+        verify = str(os.environ.get('ASK_VERIFY_REQUESTS', '')).lower() 
+        if verify == 'false': 
+            app.config['ASK_VERIFY_REQUESTS'] = False 
+    app.run(debug=True)
