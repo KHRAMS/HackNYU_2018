@@ -63,11 +63,13 @@ def return_traffic_analysis(origin,destination,departure,arrival):
         if ("The best time to leave is: "+ (str(best_time).replace(".", ":"))) ==  "The best time to leave is: 0":
             return "Within the parameters you imputed you will not reach your destination on time."
         else:
-            if round((best_time-best_time//1), 1) >= 0.6:
+            # print("1 = " + str(best_time))
+            if round((best_time-best_time//1), 2) >= 0.6:
                 # print(dict_time)
                 best_time += 1.0
                 best_time -= 0.6
                 best_time = round(best_time, 2)
+                # print("2 = " + str(best_time))
 
             return "The best time to leave is: " + (str(best_time).replace(".", ":"))
 
@@ -107,9 +109,9 @@ def return_weather_analysis(destination_address, origin_address):
         return "The weather outside is safe and great to drive. Remember to buckle up and maintain control of the car"
 
 
-#print(return_traffic_analysis(origin, destination, departure, arrival))
+print(return_traffic_analysis(origin, destination, departure, arrival))
 
-print(return_weather_analysis(destination_address, origin_address))
+#print(return_weather_analysis(destination_address, origin_address))
 
 
 

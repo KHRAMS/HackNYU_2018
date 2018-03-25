@@ -80,6 +80,10 @@ def return_traffic_analysis(origin,destination,departure,arrival):
             departure_time += 1.0
             departure_time = departure_time - 0.6
             departure_time = round(departure_time, 2)
+        if round((best_time-best_time//1), 2) >= 0.6:
+            best_time += 1.0
+            best_time -= 0.6
+            best_time = round(best_time, 2)
 
     if ("The best time to leave is: " + (str(best_time).replace(".", ":"))) == "The best time to leave is: 0":
         return statement("Within the paremeters you inputted you will not reach your destination on time.")
