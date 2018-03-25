@@ -31,7 +31,7 @@ def return_traffic_analysis(origin,destination,departure,arrival):
         dict_time = {}
         best_time = 0
         while departure_time < arrival_time:
-            nav_request = 'origins={}&destinations={}&departure_time={}&mode={}&traffic_model={}&key={}'.format(origin,destination,int(time.mktime(time.strptime('2018-03-25 ' + departure + ":00",'%Y-%m-%d %H:%M:%S'))), "driving","best_guess",api_key)
+            nav_request = 'origins={}&destinations={}&departure_time={}&mode={}&traffic_model={}&key={}'.format(origin,destination,int(time.mktime(time.strptime('2018-03-26 ' + departure + ":00",'%Y-%m-%d %H:%M:%S'))), "driving","best_guess",api_key)
             request = endpoint + nav_request
             response = urllib.request.urlopen(request).read()
             data = json.loads(response.decode('utf-8'))

@@ -52,7 +52,7 @@ def return_traffic_analysis(origin,destination,departure,arrival):
                                                                                                             int(
                                                                                                                 time.mktime(
                                                                                                                     time.strptime(
-                                                                                                                        '2018-03-25 ' + departure + ":00",
+                                                                                                                        '2018-03-26 ' + departure + ":00",
                                                                                                                         '%Y-%m-%d %H:%M:%S'))),
                                                                                                             "driving",
                                                                                                             "best_guess",
