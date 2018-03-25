@@ -33,7 +33,7 @@ def new_game():
 def return_traffic_analysis(origin,destination,departure,arrival):
     import urllib.request, json, time
     endpoint = "https://maps.googleapis.com/maps/api/distancematrix/json?"
-    api_key = "AIzaSyBTr-wJwTkr6VUt3xboaCyZBtQk_ST_GHY"
+    api_key = "AIzaSyDh7AyHVeTuX5BM3gJPj5nUg0FiPEknmLo"
     origin = origin.replace(" ",",")
     print(origin,destination,departure,arrival)
     destination = destination.replace(" ",",")
@@ -96,7 +96,7 @@ def return_weather_analysis(destination, origin):
     destination_address = destination.replace(" ","+")
     origin_address = origin.replace(" ","+")
     endpoint = "https://maps.googleapis.com/maps/api/distancematrix/json?"
-    api_key = "AIzaSyBTr-wJwTkr6VUt3xboaCyZBtQk_ST_GHY"
+    api_key = "AIzaSyDh7AyHVeTuX5BM3gJPj5nUg0FiPEknmLo"
 
     nreq = 'origins={}&destinations={}&key={}'.format(origin_address, destination_address, api_key)
     req = endpoint + nreq
